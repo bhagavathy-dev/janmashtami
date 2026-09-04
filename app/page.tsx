@@ -88,7 +88,6 @@ export default function Home() {
           name={name}
           quote={quote}
           place={place}
-          currentSong={currentSong}
         />
       )}
 
