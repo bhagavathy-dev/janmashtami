@@ -4,40 +4,103 @@ import { useState } from "react";
 
 import Hero from "@/components/Hero/Hero";
 import ButterHunt from "@/components/ButterHunt/ButterHunt";
-import ArrivalTrail from "@/components/Footprint/ArrivalTrail";
-import BhajanQueue from "@/components/Bhajan/BhajanQueue";
+import WelcomeKrishna from "@/components/WelcomeKrishna/WelcomeKrishna";
+import BhajanPlayer from "@/components/Bhajan/BhajanPlayer";
 import CelebrationResult from "@/components/Celebration/CelebrationResult";
 
 export default function Home() {
-  const [score, setScore] = useState(0);
-  const [currentSong, setCurrentSong] = useState<string | null>(null);
-  const [trailGenerated, setTrailGenerated] = useState(false);
+  // =========================
+  // BUTTER HUNT
+  // =========================
+
+  const [butterScore, setButterScore] =
+    useState<number | null>(null);
+
+  // =========================
+  // WELCOME CARD
+  // =========================
+
+  const [name, setName] = useState("");
+
+  const [quote, setQuote] = useState("");
+
+  const [place, setPlace] = useState("temple");
+
+  // =========================
+  // BHAJAN
+  // =========================
+
+  const [currentSong, setCurrentSong] =
+    useState("Radhe Radhe");
+
+  // =========================
+  // CELEBRATION RESULT
+  // =========================
+
+  const [welcomeGenerated, setWelcomeGenerated] =
+    useState(false);
 
   return (
     <main>
+
+      {/* ========================= */}
+      {/* HERO */}
+      {/* ========================= */}
+
       <Hero />
 
-      <section className="mx-auto max-w-6xl px-6 py-24">
-        <ButterHunt onScoreChange={setScore} />
-      </section>
+      {/* ========================= */}
+      {/* BUTTER HUNT */}
+      {/* ========================= */}
 
-      <section className="mx-auto max-w-6xl px-6 py-24">
-        <ArrivalTrail
-          onGenerated={() => setTrailGenerated(true)}
+      <section
+        id="butter"
+        className="mx-auto max-w-6xl px-6 py-24"
+      >
+        <ButterHunt
+          onGameComplete={setButterScore}
         />
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-24">
-        <CelebrationResult
-          score={score}
-          currentSong={currentSong}
-          trailGenerated={trailGenerated}
-        />
-      </section>
+      {/* ========================= */}
+      {/* WELCOME KRISHNA */}
+      {/* ========================= */}
 
-      <BhajanQueue
-        onSongChange={setCurrentSong}
+      <WelcomeKrishna
+        name={name}
+        setName={setName}
+        quote={quote}
+        setQuote={setQuote}
+        place={place}
+        setPlace={setPlace}
+        onGenerate={() => {
+          setWelcomeGenerated(true);
+        }}
       />
+
+      {/* ========================= */}
+      {/* CELEBRATION RESULT */}
+      {/* ========================= */}
+
+      {welcomeGenerated && (
+        <CelebrationResult
+          score={butterScore ?? 0}
+          name={name}
+          quote={quote}
+          place={place}
+          currentSong={currentSong}
+        />
+      )}
+
+      {/* ========================= */}
+      {/* BHAJAN PLAYER */}
+      {/* ========================= */}
+
+      <BhajanPlayer
+        currentSong={currentSong}
+        setCurrentSong={setCurrentSong}
+      />
+
     </main>
   );
 }
